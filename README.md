@@ -55,11 +55,26 @@ local function AddToStash(stashId, slot, otherslot, itemName, amount, info, crea
     amount = tonumber(amount) or 1
     local ItemData = QBCore.Shared.Items[itemName]
     local Player = QBCore.Functions.GetPlayer(source)
-
     if string.lower(string.sub(stashId, 1, 6)) == "wallet" then
         local itemInfo = QBCore.Shared.Items[itemName:lower()]
         local wallet_allowed_items = {
-            'id_card', -- Add more below for items you would like to be stored in your wallet
+            'car_licence',
+            'motorcycle_licence',
+            'truck_licence',
+            'boat_licence',
+            'plane_licence',
+            'helicopter_licence',
+            'firearms_licence',
+            'id_card',
+            'health_insurance',
+            'car_registration',
+            'insurance',
+            'cash',
+            'pawnshop_receipt',
+            'pawnshop_order',
+            'freegift',
+            'usedgift',
+            'mec_registration',
         }
         local itemFound = false
         for _, item in ipairs(wallet_allowed_items) do
@@ -67,7 +82,7 @@ local function AddToStash(stashId, slot, otherslot, itemName, amount, info, crea
                 itemFound = true
                 -- Check if the item already exists in the stash
                 local found = false
-                for stashSlot, stashItem in pairs(Stashes[stashId].items) do
+                for _, stashItem in pairs(Stashes[stashId].items) do
                     if stashItem.name == itemName then
                         found = true
                         break
