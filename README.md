@@ -59,17 +59,7 @@ local function AddToStash(stashId, slot, otherslot, itemName, amount, info, crea
     if string.lower(string.sub(stashId, 1, 6)) == "wallet" then
         local itemInfo = QBCore.Shared.Items[itemName:lower()]
         local wallet_allowed_items = {
-            'car_licence',
-            'motorcycle_licence',
-            'truck_licence',
-            'boat_licence',
-            'plane_licence ',
-            'helicopter_licence',
-            'firearms_licence',
-            'id_card',
-            'cash',
-            'pawnshop_receipt',
-            'pawnshop_order',
+            'id_card', -- Add more below for items you would like to be stored in your wallet
         }
         local itemFound = false
         for _, item in ipairs(wallet_allowed_items) do
@@ -108,7 +98,7 @@ local function AddToStash(stashId, slot, otherslot, itemName, amount, info, crea
             for stashSlot, stashItem in pairs(Stashes[stashId].items) do
                 if stashItem.name == itemName then
                     RemoveFromStash(stashId, stashSlot, itemName, amount)  -- Remove the specific item from the stash
-                    return
+                return
                 end
             end
             -- Notify the player about the prohibited item
