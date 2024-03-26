@@ -2,7 +2,7 @@ fx_version 'cerulean'
 author 'Fortified Grizzly'
 Description 'Wallet System'
 game 'gta5'
-version '1.0.1'
+version '1.0.2'
 
 shared_scripts {
     'shared/config.lua'
