@@ -22,6 +22,7 @@ local function Versioncheck()
                 print("^3[info]", "^1Current Version ".. currentVersion)
                 print("^3[info]", "^3Latest Version ".. fxmanifestVersion)
                 print("^1You are currently running an outdated version. Please update.^7")
+                print("https://github.com/FortifiedGrizzly/fg-wallet")
             else
                 currentVersion = "^2" .. currentVersion .. "^2"
                 fxmanifestVersion = "^2" .. fxmanifestVersion .. "^2" 
