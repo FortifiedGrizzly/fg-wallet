@@ -55,6 +55,7 @@ local function AddToStash(stashId, slot, otherslot, itemName, amount, info, crea
     amount = tonumber(amount) or 1
     local ItemData = QBCore.Shared.Items[itemName]
     local Player = QBCore.Functions.GetPlayer(source)
+    if Config.WalletEnable then
     if string.lower(string.sub(stashId, 1, 6)) == "wallet" then
         local itemInfo = QBCore.Shared.Items[itemName:lower()]
         local wallet_allowed_items = {
@@ -106,7 +107,16 @@ local function AddToStash(stashId, slot, otherslot, itemName, amount, info, crea
             return
         end
     end
+end
 ```
+6. **Adding Config to inventory**:
+    - Add the following line, to your inventory Config.lua
+    
+
+    ```lua
+    Config.WalletEnable = true
+    ```
+
 
 
 
