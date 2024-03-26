@@ -1,24 +1,27 @@
 local QBCore = exports[Config.Framework.CoreName]:GetCoreObject()
 
-RegisterNetEvent('client:wallet', function(walletid)
-    local citizenid = nil
-    local stashname = Config.StashName
-    local Config = Config.Wallet
-    local playerPed = PlayerPedId()
-    if IsEntityDead(playerPed) then 
-        QBCore.Functions.Notify('You cannot do this while dead', "primary")
-    end
-    if IsPedSwimming(playerPed) then 
-        QBCore.Functions.Notify('You Must be on dry land to do this!', "primary")
-    end
+if Config.Wallet.Enable then
+    RegisterNetEvent('client:wallet', function(walletid)
+        local citizenid = nil
+        local stashname = Config.Wallet.StashName
+        local playerPed = PlayerPedId()
+        if IsEntityDead(playerPed) then 
+            QBCore.Functions.Notify('You cannot do this while dead', "primary")
+            return
+        end
+        if IsPedSwimming(playerPed) then 
+            QBCore.Functions.Notify('You Must be on dry land to do this!', "primary")
+            return
+        end
 
-    citizenid = QBCore.Functions.GetPlayerData().citizenid
+        citizenid = QBCore.Functions.GetPlayerData().citizenid
 
-    if Config.Stashid then
-        TriggerServerEvent(Config.Framework.OpenInventory, "stash", stashname .. '_' .. walletid, {maxweight = Config.MaxWeight, slots = Config.Slots})
-        TriggerEvent(Config.Framework.SetStash, stashname .. '_' .. walletid)
-    else
-        TriggerServerEvent(Config.Framework.OpenInventory, "stash", stashname .. '_' .. citizenid, {maxweight = Config.MaxWeight, slots = Config.Slots})
-        TriggerEvent(Config.Framework.SetStash, stashname .. '_' .. citizenid)
-    end
-end)
+        if Config.Wallet.Stashid then
+            TriggerServerEvent(Config.Framework.OpenInventory, "stash", stashname .. '_' .. walletid, {maxweight = Config.Wallet.MaxWeight, slots = Config.Wallet.Slots})
+            TriggerEvent(Config.Framework.SetStash, stashname .. '_' .. walletid)
+        else
+            TriggerServerEvent(Config.Framework.OpenInventory, "stash", stashname .. '_' .. citizenid, {maxweight = Config.Wallet.MaxWeight, slots = Config.Wallet.Slots})
+            TriggerEvent(Config.Framework.SetStash, stashname .. '_' .. citizenid)
+        end
+    end)
+end
