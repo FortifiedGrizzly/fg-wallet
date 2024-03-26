@@ -2,6 +2,7 @@ fx_version 'cerulean'
 author 'Fortified Grizzly'
 Description 'Wallet System'
 game 'gta5'
+version '1.0.0'
 
 
 shared_scripts {
