@@ -4,13 +4,13 @@ Description 'Wallet System'
 game 'gta5'
 version '1.0.0'
 
-
 shared_scripts {
     'shared/config.lua'
 }
 
 server_scripts {
-    'server/sv_wallet.lua'
+    'server/sv_wallet.lua',
+    'server/version.lua'
 }
 
 client_scripts{
