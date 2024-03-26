@@ -26,11 +26,12 @@ This document provides instructions for installing and configuring the Fortified
     }
     Player.Functions.AddItem('wallet', 1, nil, info, {["quality"] = 100})
     Player.Functions.RemoveMoney('bank', 50, 'Wallet Purchase')
-
+    ```
     - Inside the giveitem command function, add the following snippet inside the if itemData then block:
+   ```lua
     elseif itemData["name"] == 'wallet' then
     info.walletid = math.random(111111,999999)
-    ```
+   ```
 4. **QBCore Inventory server/main.lua**: 
     - Update the price of the wallet item in the shop to match the purchase price set in the server/main.lua file.
     - Add the following entry to your qb-shops/config.lua file:
