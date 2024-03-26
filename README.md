@@ -51,42 +51,62 @@ This document provides instructions for installing and configuring the Fortified
     - Add the following code snippet below the declaration of ItemData:
     - Replace wallet_allowed_items with your list of allowed items.
 ```lua    
+local function AddToStash(stashId, slot, otherslot, itemName, amount, info, created)
+    amount = tonumber(amount) or 1
+    local ItemData = QBCore.Shared.Items[itemName]
     local Player = QBCore.Functions.GetPlayer(source)
 
     if string.lower(string.sub(stashId, 1, 6)) == "wallet" then
-    local itemInfo = QBCore.Shared.Items[itemName:lower()]
-    local wallet_allowed_items = {
-        -- Add your allowed items here
-    }
-    local itemFound = false
-    for _, item in ipairs(wallet_allowed_items) do
-        if string.match(itemInfo["name"], item) then
-            itemFound = true
-            Stashes[stashId].items[slot] = {
-                name = itemInfo["name"],
-                amount = amount,
-                info = info or "",
-                label = itemInfo["label"],
-                description = itemInfo["description"] or "",
-                weight = itemInfo["weight"],
-                type = itemInfo["type"],
-                unique = itemInfo["unique"],
-                useable = itemInfo["useable"],
-                image = itemInfo["image"],
-                created = created,
-                slot = slot,
-            }
-            break
+        local itemInfo = QBCore.Shared.Items[itemName:lower()]
+        local wallet_allowed_items = {
+            'car_licence',
+            'motorcycle_licence',
+            'truck_licence',
+            'boat_licence',
+            'plane_licence ',
+            'helicopter_licence',
+            'firearms_licence',
+            'id_card',
+        }
+        local itemFound = false
+        for _, item in ipairs(wallet_allowed_items) do
+            if string.match(itemInfo["name"], item) then
+                itemFound = true
+                -- Check if the item already exists in the stash
+                for stashSlot, stashItem in pairs(Stashes[stashId].items) do
+                    if stashItem.name == itemName then
+                        -- Item already exists in the stash, update its quantity
+                        Stashes[stashId].items[stashSlot].amount = Stashes[stashId].items[stashSlot].amount + amount
+                        TriggerClientEvent('QBCore:Notify', source, "Added "..amount.."x "..itemInfo["label"].." to stash.", "success", 3500)
+                        return
+                    end
+                end
+                -- Item is not already in the stash, so add it
+                Stashes[stashId].items[slot] = {
+                    name = itemInfo["name"],
+                    amount = amount,
+                    info = info or "",
+                    label = itemInfo["label"],
+                    description = itemInfo["description"] or "",
+                    weight = itemInfo["weight"],
+                    type = itemInfo["type"],
+                    unique = itemInfo["unique"],
+                    useable = itemInfo["useable"],
+                    image = itemInfo["image"],
+                    created = created,
+                    slot = slot,
+                }
+                return
+            end
+        end
+
+        if not itemFound then
+            RemoveFromStash(stashId, otherslot, itemName, amount)
+            Player.Functions.AddItem(itemName, amount, slot, info)
+            TriggerClientEvent('QBCore:Notify', source, "You cannot put that item here!", "error", 3500)
+            return
         end
     end
-
-       if not itemFound then
-        RemoveFromStash(stashId, otherslot, itemName, amount)
-        Player.Functions.AddItem(itemName, amount, slot, info)
-        TriggerClientEvent('QBCore:Notify', source, "You Cannot Put that item here!", "error", 3500)
-        return
-       end
-   end
 ```
 
 
