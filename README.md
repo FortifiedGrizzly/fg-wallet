@@ -77,7 +77,6 @@ local function AddToStash(stashId, slot, otherslot, itemName, amount, info, crea
                     if stashItem.name == itemName then
                         -- Item already exists in the stash, update its quantity
                         Stashes[stashId].items[stashSlot].amount = Stashes[stashId].items[stashSlot].amount + amount
-                        TriggerClientEvent('QBCore:Notify', source, "Added "..amount.."x "..itemInfo["label"].." to stash.", "success", 3500)
                         return
                     end
                 end
