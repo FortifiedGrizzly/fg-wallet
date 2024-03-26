@@ -18,6 +18,7 @@ This document provides instructions for installing and configuring the Fortified
     elseif QBCore.Shared.SplitStr(shopType, "_")[1] == "Itemshop" then
 
     - Insert the following code snippet above it:
+
     ```lua
     elseif itemData.name == 'wallet' then
     local info = {
@@ -30,9 +31,10 @@ This document provides instructions for installing and configuring the Fortified
     elseif itemData["name"] == 'wallet' then
     info.walletid = math.random(111111,999999)
     ```
-3. **QBCore Inventory server/main.lua**: 
+4. **QBCore Inventory server/main.lua**: 
     - Update the price of the wallet item in the shop to match the purchase price set in the server/main.lua file.
     - Add the following entry to your qb-shops/config.lua file:
+
     ```lua
     [4] = {
     name = "wallet",
@@ -43,11 +45,12 @@ This document provides instructions for installing and configuring the Fortified
     slot = 4,
     }
     ```
-4. **Restricting Items server/main.lua**:
+5. **Restricting Items server/main.lua**:
     - In your inventory script (e.g., server/main.lua), locate the AddToStash function.
     - Add the following code snippet below the declaration of ItemData:
     - Replace wallet_allowed_items with your list of allowed items.
-    ```lua    
+
+   ```lua    
     local Player = QBCore.Functions.GetPlayer(source)
 
     if string.lower(string.sub(stashId, 1, 6)) == "wallet" then
@@ -85,14 +88,6 @@ This document provides instructions for installing and configuring the Fortified
     end
 end
 ```
-
-
-
-
-
-
-
-
 
 
 
