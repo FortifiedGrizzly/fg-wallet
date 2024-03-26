@@ -49,8 +49,7 @@ This document provides instructions for installing and configuring the Fortified
     - In your inventory script (e.g., server/main.lua), locate the AddToStash function.
     - Add the following code snippet below the declaration of ItemData:
     - Replace wallet_allowed_items with your list of allowed items.
-
-      ```lua    
+```lua    
     local Player = QBCore.Functions.GetPlayer(source)
 
     if string.lower(string.sub(stashId, 1, 6)) == "wallet" then
@@ -80,14 +79,14 @@ This document provides instructions for installing and configuring the Fortified
         end
     end
 
-    if not itemFound then
+       if not itemFound then
         RemoveFromStash(stashId, otherslot, itemName, amount)
         Player.Functions.AddItem(itemName, amount, slot, info)
         TriggerClientEvent('QBCore:Notify', source, "You Cannot Put that item here!", "error", 3500)
         return
-    end
-end
-   ```
+       end
+   end
+```
 
 
 
