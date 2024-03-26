@@ -50,7 +50,7 @@ This document provides instructions for installing and configuring the Fortified
     - Add the following code snippet below the declaration of ItemData:
     - Replace wallet_allowed_items with your list of allowed items.
 
-   ```lua    
+      ```lua    
     local Player = QBCore.Functions.GetPlayer(source)
 
     if string.lower(string.sub(stashId, 1, 6)) == "wallet" then
@@ -87,7 +87,7 @@ This document provides instructions for installing and configuring the Fortified
         return
     end
 end
-```
+   ```
 
 
 
