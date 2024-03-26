@@ -51,7 +51,7 @@ This document provides instructions for installing and configuring the Fortified
     - Add the following code snippet below the declaration of ItemData:
     - Replace wallet_allowed_items with your list of allowed items.
 ```lua    
-local function AddToStash(stashId, slot, otherslot, itemName, amount, info, created, originalSlot)
+local function AddToStash(stashId, slot, otherslot, itemName, amount, info, created)
     amount = tonumber(amount) or 1
     local ItemData = QBCore.Shared.Items[itemName]
     local Player = QBCore.Functions.GetPlayer(source)
@@ -67,6 +67,9 @@ local function AddToStash(stashId, slot, otherslot, itemName, amount, info, crea
             'helicopter_licence',
             'firearms_licence',
             'id_card',
+            'cash',
+            'pawnshop_receipt',
+            'pawnshop_order',
         }
         local itemFound = false
         for _, item in ipairs(wallet_allowed_items) do
@@ -101,14 +104,14 @@ local function AddToStash(stashId, slot, otherslot, itemName, amount, info, crea
             end
         end
         if not itemFound then
-			Player.Functions.AddItem(itemName, amount, originalSlot, info)  -- Add the item back to its original slot
+			Player.Functions.AddItem(itemName, amount, false, info)
             for stashSlot, stashItem in pairs(Stashes[stashId].items) do
                 if stashItem.name == itemName then
                     RemoveFromStash(stashId, stashSlot, itemName, amount)  -- Remove the specific item from the stash
                     return
                 end
             end
-            -- Prohibited item detected, notify the player and prevent it from being added
+            -- Notify the player about the prohibited item
             TriggerClientEvent('QBCore:Notify', source, "You cannot put that item here!", "error", 3500)
             return
         end
