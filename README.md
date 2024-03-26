@@ -58,23 +58,8 @@ local function AddToStash(stashId, slot, otherslot, itemName, amount, info, crea
     if string.lower(string.sub(stashId, 1, 6)) == "wallet" then
         local itemInfo = QBCore.Shared.Items[itemName:lower()]
         local wallet_allowed_items = {
-            'car_licence',
-            'motorcycle_licence',
-            'truck_licence',
-            'boat_licence',
-            'plane_licence',
-            'helicopter_licence',
-            'firearms_licence',
-            'id_card',
-            'health_insurance',
-            'car_registration',
-            'insurance',
-            'cash',
-            'pawnshop_receipt',
-            'pawnshop_order',
-            'freegift',
-            'usedgift',
-            'mec_registration',
+            'id_card', 
+		-- Add More items here as required 
         }
         local itemFound = false
         for _, item in ipairs(wallet_allowed_items) do
