@@ -51,7 +51,7 @@ This document provides instructions for installing and configuring the Fortified
     - Add the following code snippet below the declaration of ItemData:
     - Replace wallet_allowed_items with your list of allowed items.
 ```lua    
-local function AddToStash(stashId, slot, otherslot, itemName, amount, info, created)
+local function AddToStash(stashId, slot, otherslot, itemName, amount, info, created, originalSlot)
     amount = tonumber(amount) or 1
     local ItemData = QBCore.Shared.Items[itemName]
     local Player = QBCore.Functions.GetPlayer(source)
@@ -73,35 +73,42 @@ local function AddToStash(stashId, slot, otherslot, itemName, amount, info, crea
             if string.match(itemInfo["name"], item) then
                 itemFound = true
                 -- Check if the item already exists in the stash
+                local found = false
                 for stashSlot, stashItem in pairs(Stashes[stashId].items) do
                     if stashItem.name == itemName then
-                        -- Item already exists in the stash, update its quantity
-                        Stashes[stashId].items[stashSlot].amount = Stashes[stashId].items[stashSlot].amount + amount
-                        return
+                        found = true
+                        break
                     end
                 end
-                -- Item is not already in the stash, so add it
-                Stashes[stashId].items[slot] = {
-                    name = itemInfo["name"],
-                    amount = amount,
-                    info = info or "",
-                    label = itemInfo["label"],
-                    description = itemInfo["description"] or "",
-                    weight = itemInfo["weight"],
-                    type = itemInfo["type"],
-                    unique = itemInfo["unique"],
-                    useable = itemInfo["useable"],
-                    image = itemInfo["image"],
-                    created = created,
-                    slot = slot,
-                }
-                return
+                if not found then
+                    -- Item is not already in the stash, so add it
+                    Stashes[stashId].items[slot] = {
+                        name = itemInfo["name"],
+                        amount = amount,
+                        info = info or "",
+                        label = itemInfo["label"],
+                        description = itemInfo["description"] or "",
+                        weight = itemInfo["weight"],
+                        type = itemInfo["type"],
+                        unique = itemInfo["unique"],
+                        useable = itemInfo["useable"],
+                        image = itemInfo["image"],
+                        created = created,
+                        slot = slot,
+                    }
+                    return
+                end
             end
         end
-
         if not itemFound then
-            RemoveFromStash(stashId, otherslot, itemName, amount)
-            Player.Functions.AddItem(itemName, amount, slot, info)
+			Player.Functions.AddItem(itemName, amount, originalSlot, info)  -- Add the item back to its original slot
+            for stashSlot, stashItem in pairs(Stashes[stashId].items) do
+                if stashItem.name == itemName then
+                    RemoveFromStash(stashId, stashSlot, itemName, amount)  -- Remove the specific item from the stash
+                    return
+                end
+            end
+            -- Prohibited item detected, notify the player and prevent it from being added
             TriggerClientEvent('QBCore:Notify', source, "You cannot put that item here!", "error", 3500)
             return
         end
