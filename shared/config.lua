@@ -6,9 +6,13 @@ Config.Framework = {
     SetStash = "inventory:client:SetCurrentStash",
 }
 
-Config.StashName = 'Wallet'
-Config.WalletItem = "wallet"
 
-Config.MaxWeight = 1
-Config.Slots = 10
-Config.Stashid = true
+Config.Wallet = {
+    Enable = true,
+    StashName = 'Wallet',
+    WalletItem = "wallet",
+    MaxWeight = 1000,
+    Slots = 24,
+    Stashid = true
+
+}

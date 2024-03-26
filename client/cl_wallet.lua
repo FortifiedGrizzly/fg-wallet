@@ -1,9 +1,9 @@
 local QBCore = exports[Config.Framework.CoreName]:GetCoreObject()
 
-local citizenid = nil
-local stashname = Config.StashName
-
 RegisterNetEvent('client:wallet', function(walletid)
+    local citizenid = nil
+    local stashname = Config.StashName
+    local Config = Config.Wallet
     local playerPed = PlayerPedId()
     if IsEntityDead(playerPed) then 
         QBCore.Functions.Notify('You cannot do this while dead', "primary")
